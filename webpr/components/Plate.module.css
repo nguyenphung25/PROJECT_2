@@ -1,0 +1,26 @@
+.plate {
+  white-space: pre-line;
+  display: inline-grid;
+  place-items: center;
+  min-width: 76px;
+  min-height: 48px;
+  padding: 4px 10px;
+  border: 1px solid #bfd0e7;
+  border-radius: 5px;
+  background: #eef6ff;
+  color: #063f7f;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.05;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.large {
+  min-width: 185px;
+  min-height: 150px;
+  border-radius: 8px;
+  font-size: 42px;
+  line-height: 1.45;
+  background: white;
+}

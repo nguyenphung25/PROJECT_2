@@ -1,0 +1,182 @@
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #cfd6e2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 30px 32px 24px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  background: #064584;
+  color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.brand h1 {
+  margin: 0;
+  color: #073d78;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.brand p {
+  margin: 6px 0 0;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.nav {
+  margin-top: 36px;
+}
+
+.navItem {
+  height: 52px;
+  padding: 0 34px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #374151;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  position: relative;
+  transition: 0.2s ease;
+}
+
+.navItem:hover {
+  background: #eef5ff;
+  color: #064584;
+}
+
+.navItem svg {
+  color: currentColor;
+  flex-shrink: 0;
+}
+
+.active {
+  background: #d7e6ff;
+  color: #064584;
+  font-weight: 800;
+}
+
+.active::before {
+  content: "";
+  width: 4px;
+  height: 100%;
+  background: #064584;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.bottom {
+  border-top: 1px solid #d6dce6;
+  padding: 18px 30px 24px;
+}
+
+.userBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userBox h4 {
+  margin: 0;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.userBox p {
+  margin: 3px 0 0;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.logout {
+  border: none;
+  background: transparent;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.logout:hover {
+  color: #b91c1c;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 86px;
+    min-width: 86px;
+  }
+
+  .brand {
+    padding: 24px 18px;
+    justify-content: center;
+  }
+
+  .brand h1,
+  .brand p,
+  .navItem span,
+  .userBox div,
+  .logout span {
+    display: none;
+  }
+
+  .navItem {
+    padding: 0;
+    justify-content: center;
+  }
+
+  .bottom {
+    padding: 18px;
+  }
+
+  .userBox {
+    justify-content: center;
+  }
+
+  .logout {
+    justify-content: center;
+    width: 100%;
+  }
+}

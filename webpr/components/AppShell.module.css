@@ -1,0 +1,17 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  background: #f5f7fb;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  background: #f5f7fb;
+}
+
+.content {
+  width: 100%;
+  padding: 34px 40px 48px;
+  box-sizing: border-box;
+}
