@@ -1,3 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap");
+
+.headRow,
+.cameraGrid,
+.uploadPanel,
+.resultPanel,
+.metricsGrid,
+.tableCard {
+  font-family:
+    "Be Vietnam Pro",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
 .headRow {
   width: 100%;
   display: flex;
@@ -10,15 +27,18 @@
 .headRow h2 {
   margin: 0;
   color: #063f7d;
-  font-size: 36px;
+  font-size: 34px;
   font-weight: 800;
-  letter-spacing: 0.02em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .headRow p {
-  margin: 6px 0 0;
-  color: #374151;
-  font-size: 17px;
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
 }
 
 .headActions {
@@ -34,8 +54,9 @@
   border-radius: 10px;
   background: #eeeeee;
   color: #111827;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
   display: inline-flex;
   align-items: center;
   gap: 9px;
@@ -72,9 +93,10 @@
 
 .panelTitle h3 {
   margin: 0;
-  color: #111827;
-  font-size: 25px;
+  color: #0f172a;
+  font-size: 21px;
   font-weight: 800;
+  line-height: 1.3;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -85,8 +107,9 @@
   color: #064584;
   border-radius: 999px;
   padding: 8px 14px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
+  line-height: 1;
   letter-spacing: 0.08em;
 }
 
@@ -118,14 +141,18 @@
 .uploadBox h4 {
   margin: 0;
   color: #111827;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 .uploadBox p {
   margin: 8px 0 20px;
-  color: #6b7280;
-  font-size: 15px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
 }
 
 .fileButton {
@@ -137,14 +164,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-size: 14px;
   font-weight: 800;
+  font-family: inherit;
   cursor: pointer;
 }
 
 .fileHint {
   margin-top: 14px;
-  color: #6b7280;
+  color: #64748b;
   font-size: 13px;
+  font-weight: 500;
 }
 
 .previewCard {
@@ -163,15 +193,19 @@
 }
 
 .previewTop strong {
-  color: #111827;
-  font-size: 17px;
+  color: #0f172a;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
 .previewTop p {
   margin: 4px 0 0;
-  color: #6b7280;
+  color: #64748b;
   font-size: 14px;
+  font-weight: 500;
 }
+
 .previewImage {
   position: relative;
   min-height: 280px;
@@ -195,17 +229,30 @@
   pointer-events: none;
 }
 
+.emptyPreview {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #94a3b8;
+  font-size: 15px;
+  font-weight: 600;
+  background: #0f172a;
+}
+
 .scanLabel {
   position: absolute;
   top: 16px;
   left: 16px;
   z-index: 2;
-  padding: 6px 10px;
+  padding: 7px 11px;
   border-radius: 999px;
   background: rgba(15, 23, 42, 0.78);
   color: white;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.03em;
 }
 
 .detectBox {
@@ -220,6 +267,7 @@
   border-radius: 12px;
   box-shadow: 0 0 24px rgba(34, 197, 94, 0.65);
 }
+
 .actionRow {
   display: flex;
   justify-content: flex-end;
@@ -232,7 +280,9 @@
   height: 46px;
   padding: 0 22px;
   border-radius: 10px;
+  font-size: 14px;
   font-weight: 800;
+  font-family: inherit;
   cursor: pointer;
 }
 
@@ -261,8 +311,10 @@
 
 .resultPanel h3 {
   margin: 0 0 26px;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -272,8 +324,10 @@
   display: block;
   text-align: center;
   color: #d9e8ff;
-  font-size: 13px;
-  letter-spacing: 0.24em;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.22em;
   margin-bottom: 14px;
 }
 
@@ -293,14 +347,17 @@
 .confGrid span {
   display: block;
   color: #dbeafe;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .confGrid strong {
   display: block;
-  margin-top: 5px;
+  margin-top: 6px;
   color: #ffffff;
-  font-size: 22px;
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .resultLine {
@@ -309,7 +366,12 @@
   justify-content: space-between;
   color: #e8f1ff;
   margin-top: 18px;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.resultLine b {
+  font-weight: 800;
 }
 
 .guest {
@@ -317,7 +379,8 @@
   color: #064584;
   padding: 6px 12px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .approveBtn {
@@ -328,8 +391,9 @@
   border-radius: 10px;
   background: #ffffff;
   color: #064584;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
+  font-family: inherit;
   cursor: pointer;
 }
 
@@ -349,22 +413,26 @@
 
 .metric span {
   display: block;
-  color: #374151;
-  font-size: 15px;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .metric strong {
   display: block;
   margin-top: 8px;
   color: #064584;
-  font-size: 28px;
+  font-size: 27px;
   font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .metric p {
   margin: 8px 0 0;
   color: #16a34a;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .progress {
@@ -399,9 +467,11 @@
 
 .tableTop h3 {
   margin: 0;
-  color: #111827;
-  font-size: 22px;
+  color: #0f172a;
+  font-size: 20px;
   font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
 .tableTop div {
@@ -417,6 +487,7 @@
   border-radius: 8px;
   display: grid;
   place-items: center;
+  font-family: inherit;
   cursor: pointer;
 }
 
@@ -432,18 +503,25 @@
 
 .tableWrap th {
   background: #f3f4f6;
-  color: #4b5563;
-  font-size: 12px;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
   text-align: left;
   padding: 14px 22px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .tableWrap td {
   padding: 17px 22px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #c3d3f1;
   color: #111827;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tableWrap td strong {
+  font-weight: 800;
 }
 
 .tableWrap td:nth-child(4) {
@@ -457,6 +535,7 @@
   align-items: center;
   gap: 8px;
   color: #064584;
+  font-size: 14px;
   font-weight: 800;
 }
 
@@ -479,12 +558,32 @@
     flex-direction: column;
   }
 
+  .headRow h2 {
+    font-size: 28px;
+  }
+
   .headActions {
     width: 100%;
     flex-direction: column;
   }
 
   .headActions button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .panelTitle {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .actionRow {
+    flex-direction: column;
+  }
+
+  .secondaryButton,
+  .detectButton {
     width: 100%;
     justify-content: center;
   }

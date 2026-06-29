@@ -1,26 +1,52 @@
 from ultralytics import YOLO
 import cv2
 import os
+import numpy as np
+from db import upload_image_bytes
+
 
 class PlateDetector:
     def __init__(self, model_path="models/best.pt"):
         self.model = YOLO(model_path)
 
-    def detect(self, image_path, conf=0.25):
-        results = self.model.predict(source=image_path, conf=conf, save=False, verbose=False)
+    def detect(self, image_input, conf=0.25):
+        """
+        Nhan dien bien so tu anh.
+        image_input: duong dan file HOAC numpy array (BGR).
+        """
+        results = self.model.predict(source=image_input, conf=conf, save=False, verbose=False)
         return results
 
-    def crop_plates(self, image_path, output_dir="output/crops", conf=0.25):
-        os.makedirs(output_dir, exist_ok=True)
+    def crop_plates(self, image_input, conf=0.25):
+        """
+        Cat bien so va upload len Supabase.
+        Khong luu file local.
 
-        image = cv2.imread(image_path)
-        if image is None:
-            raise ValueError(f"Không đọc được ảnh: {image_path}")
+        Tra ve:
+            crop_arrays: list numpy array (de dung cho OCR)
+            crop_urls: list Supabase URL
+            plate_boxes: list dict {x1, y1, x2, y2, confidence}
+        """
+        # Doc anh tu file hoac numpy array
+        if isinstance(image_input, np.ndarray):
+            image = image_input
+        else:
+            image = cv2.imread(image_input)
+            if image is None:
+                raise ValueError(f"Khong doc duoc anh: {image_input}")
 
-        results = self.detect(image_path, conf=conf)
+        results = self.detect(image_input, conf=conf)
 
-        crop_paths = []
+        crop_arrays = []
+        crop_urls = []
         plate_boxes = []
+
+        # Ten file goc de tao ten crop
+        if isinstance(image_input, str):
+            base_name = os.path.splitext(os.path.basename(image_input))[0]
+        else:
+            import time
+            base_name = f"frame_{int(time.time())}"
 
         for result in results:
             boxes = result.boxes
@@ -39,12 +65,14 @@ class PlateDetector:
                 y2 = min(h, y2 + pad)
 
                 crop = image[y1:y2, x1:x2]
-                crop_name = f"{os.path.splitext(os.path.basename(image_path))[0]}_plate_{i}.jpg"
-                crop_path = os.path.join(output_dir, crop_name)
 
-                cv2.imwrite(crop_path, crop)
+                # Encode crop thanh JPEG bytes va upload truc tiep
+                crop_name = f"{base_name}_plate_{i}.jpg"
+                _, buffer = cv2.imencode(".jpg", crop)
+                crop_url = upload_image_bytes(buffer.tobytes(), crop_name, folder="crops")
 
-                crop_paths.append(crop_path)
+                crop_arrays.append(crop)
+                crop_urls.append(crop_url)
                 plate_boxes.append({
                     "x1": x1,
                     "y1": y1,
@@ -53,4 +81,4 @@ class PlateDetector:
                     "confidence": score
                 })
 
-        return crop_paths, plate_boxes
+        return crop_arrays, crop_urls, plate_boxes

@@ -103,10 +103,6 @@ export default function CameraSurveillancePage() {
       <div className={styles.headRow}>
         <div>
           <h2>Nhận Diện Biển Số Từ Camera</h2>
-          <p>
-            IR phát hiện xe, webcam tự động chụp ảnh, nhận diện biển số và lưu
-            vào database.
-          </p>
         </div>
 
         <div className={styles.headActions}>

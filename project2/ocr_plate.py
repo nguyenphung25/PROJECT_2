@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 import easyocr
 import re
 
@@ -114,6 +115,74 @@ class PlateOCR:
         # xử lý 2 dòng
         if len(merged_lines) >= 2:
             # dòng trên + dòng dưới
+            final_text = merged_lines[0] + merged_lines[1]
+        else:
+            final_text = merged_lines[0]
+
+        final_text = self.format_vietnam_plate(final_text)
+        avg_conf = sum(confs) / len(confs)
+
+        return final_text, avg_conf
+
+    def read_plate_image(self, image_array):
+        """
+        Doc bien so tu numpy array (BGR).
+        Khong can file local.
+        """
+        if image_array is None:
+            return "", 0.0
+
+        # Chuyen numpy array sang anh xam cho OCR
+        if len(image_array.shape) == 3:
+            gray = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = image_array
+
+        gray = cv2.resize(gray, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
+        gray = cv2.bilateralFilter(gray, 11, 17, 17)
+        _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+        results = self.reader.readtext(thresh, detail=1)
+
+        if not results:
+            return "", 0.0
+
+        items = []
+        for item in results:
+            bbox, raw_text, conf = item
+            text = self.normalize_plate_text(self.clean_text(raw_text))
+
+            if not text:
+                continue
+
+            y_center = sum([p[1] for p in bbox]) / 4.0
+            items.append((y_center, text, float(conf)))
+
+        if not items:
+            return "", 0.0
+
+        items.sort(key=lambda x: x[0])
+
+        lines = []
+        current_line = [items[0]]
+
+        for item in items[1:]:
+            if abs(item[0] - current_line[-1][0]) < 25:
+                current_line.append(item)
+            else:
+                lines.append(current_line)
+                current_line = [item]
+        lines.append(current_line)
+
+        merged_lines = []
+        confs = []
+
+        for line in lines:
+            line_text = "".join([x[1] for x in line])
+            merged_lines.append(line_text)
+            confs.extend([x[2] for x in line])
+
+        if len(merged_lines) >= 2:
             final_text = merged_lines[0] + merged_lines[1]
         else:
             final_text = merged_lines[0]

@@ -70,22 +70,6 @@ export default function Sidebar() {
       </div>
 
       <div className={styles.bottom}>
-        <div className={styles.userBox}>
-          <Image
-            src="https://i.pravatar.cc/80?img=12"
-            alt="Admin avatar"
-            width={80}
-            height={80}
-            className={styles.avatar}
-            unoptimized
-          />
-
-          <div>
-            <h4>Admin</h4>
-            <p>SUPERUSER</p>
-          </div>
-        </div>
-
         <button className={styles.logout}>
           <LogOut size={20} />
           <span>Logout</span>
