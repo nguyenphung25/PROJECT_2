@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Parking System</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="brand">
+        <div class="logo">P</div>
+
+        <div class="brandText">
+          <h1>SMART PARKING SYSTEM</h1>
+          <p>OPERATOR TERMINAL • STATION 01-A</p>
+        </div>
+      </div>
+
+      <div class="headerRight">
+        <div class="timeBox" id="realTimeClock">--:--:-- - --/--/----</div>
+        <div class="headerIcon">🔔</div>
+        <div class="headerIcon">⚙️</div>
+        <div class="adminBox">👤 Admin</div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="topGrid">
+        <!-- CAMERA VÀO -->
+        <div class="card cameraCard">
+          <div class="cardHeader">
+            <span>↪ CAMERA VÀO</span>
+          </div>
+
+          <div class="cameraContent">
+            <div class="cameraImage cameraIn defaultCamera" id="entryCameraBox">
+              <img
+                id="entryLiveCamera"
+                class="cameraLive"
+                alt="Live camera vào"
+              />
+
+              <img
+                id="entryCapturedImage"
+                class="capturedImage"
+                alt="Ảnh chụp xe vào"
+              />
+
+              <div class="cameraPlaceholder">
+                <div class="cameraPlaceholderIcon">📷</div>
+                <p>CAMERA VÀO</p>
+                <span>Đang chờ phương tiện</span>
+              </div>
+
+              <span class="gateLabel">GATE-IN-01</span>
+            </div>
+
+            <div class="plateBox waiting" id="entryPlateBox">--</div>
+
+            <div class="ocrBox">
+              <div>
+                <p>OCR RESULT</p>
+                <strong id="entryOcrResult">--</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAMERA RA -->
+        <div class="card cameraCard">
+          <div class="cardHeader">
+            <span>↩ CAMERA RA</span>
+          </div>
+
+          <div class="cameraContent">
+            <div class="cameraImage cameraOut defaultCamera" id="exitCameraBox">
+              <img
+                id="exitLiveCamera"
+                class="cameraLive"
+                alt="Live camera ra"
+              />
+
+              <img
+                id="exitCapturedImage"
+                class="capturedImage"
+                alt="Ảnh chụp xe ra"
+              />
+
+              <div class="cameraPlaceholder">
+                <div class="cameraPlaceholderIcon">📷</div>
+                <p>CAMERA RA</p>
+                <span>Đang chờ phương tiện</span>
+              </div>
+
+              <span class="gateLabel">GATE-OUT-01</span>
+            </div>
+
+            <div class="plateBox exitPlateBox waiting" id="exitPlateBox">
+              --
+            </div>
+
+            <div class="ocrBox">
+              <div>
+                <p>TRẠNG THÁI</p>
+                <strong id="exitOcrResult">Đang chờ phương tiện...</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- THÔNG TIN GIAO DỊCH -->
+        <div class="card infoCard">
+          <div class="infoTitle">🧾 THÔNG TIN GIAO DỊCH</div>
+
+          <div class="infoList">
+            <div class="infoRow activeRow">
+              <label>SỐ XE</label>
+              <div class="infoValue" id="vehicleCount">0</div>
+            </div>
+
+            <div class="infoRow">
+              <label>GIỜ VÀO</label>
+              <div class="infoValue" id="entryTime">--:--:--</div>
+            </div>
+
+            <div class="infoRow">
+              <label>GIỜ RA</label>
+              <div class="infoValue" id="exitTime">--:--:--</div>
+            </div>
+
+            <div class="infoRow">
+              <label>THỜI GIAN</label>
+              <div class="infoValue" id="durationTime">00:00:00</div>
+            </div>
+
+            <div class="infoRow">
+              <label>THÔNG BÁO</label>
+              <div class="infoValue infoMessage" id="transactionMessage">Đang chờ phương tiện</div>
+            </div>
+          </div>
+
+          <!-- NHẬP BIỂN THỦ CÔNG -->
+          <div class="manualPanel hidden" id="manualPanel">
+            <div class="manualAlert" id="manualAlert">
+              Không nhận diện được biển số. Vui lòng nhập thủ công.
+            </div>
+
+            <input
+              type="text"
+              id="manualPlateInput"
+              placeholder="VD: 30A12345 hoặc 30A-123.45"
+              autocomplete="off"
+            />
+
+            <button class="manualConfirmBtn" id="manualSubmitBtn">
+              XÁC NHẬN BIỂN SỐ
+            </button>
+          </div>
+
+          <button class="btn resetBtn" id="resetBtn">↻ RESET</button>
+
+          <div class="actionButtons">
+            <button class="btn enterBtn">↪ VÀO</button>
+            <button class="btn exitBtn">↩ RA</button>
+          </div>
+
+          <button class="btn logoutBtn">⊗ THOÁT PHIÊN LÀM VIỆC</button>
+        </div>
+      </section>
+
+      <!-- LỊCH SỬ -->
+      <section class="card historyCard">
+        <div class="historyHeader">
+          <div class="historyTitle">
+            <span>↺</span>
+            <strong>LỊCH SỬ RA VÀO GẦN ĐÂY</strong>
+          </div>
+
+          <div class="historyRight">
+            <div class="searchBox">
+              <span class="searchIcon">🔍</span>
+              <input
+                type="text"
+                id="historySearchInput"
+                placeholder="Tìm biển số..."
+                autocomplete="off"
+              />
+            </div>
+            <div class="statusFilter" aria-label="Lọc trạng thái xe">
+              <button class="statusFilterBtn active" data-status-filter="all">Tất cả</button>
+              <button class="statusFilterBtn" data-status-filter="inside">Đã vào</button>
+              <button class="statusFilterBtn" data-status-filter="exited">Đã ra</button>
+            </div>
+            <span class="greenDot">●</span>
+            <span id="vehicleCountHistory">0 xe đang trong bãi</span>
+            <span class="timeBadge">24 GIỜ QUA</span>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>THỜI GIAN VÀO</th>
+              <th>BIỂN SỐ</th>
+              <th>TRẠNG THÁI</th>
+              <th>THỜI GIAN RA</th>
+            </tr>
+          </thead>
+
+          <tbody id="historyTableBody">
+            <tr>
+              <td colspan="5" class="loadingRow">Đang tải dữ liệu...</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="viewAll">XEM TẤT CẢ LỊCH SỬ →</div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>© 2024 Smart Parking Solution. Tất cả quyền được bảo lưu.</span>
+
+      <span>
+        <b>●</b> Database Connected &nbsp;&nbsp; <b>●</b> Camera Servers Online
+      </span>
+    </footer>
+
+    <script src="main.js"></script>
+  </body>
+</html>
