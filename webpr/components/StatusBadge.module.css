@@ -1,0 +1,30 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.1;
+  white-space: pre-line;
+  text-align: center;
+}
+
+.badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.green { background: #d9fbe6; color: #16984a; }
+.green::before { background: #16a34a; }
+.yellow { background: #fff2bf; color: #9a6a00; }
+.yellow::before { background: #eab308; }
+.gray { background: #e5e7eb; color: #374151; }
+.gray::before { background: #6b7280; }
+.red { background: #fee2e2; color: #b91c1c; }
+.red::before { background: #ef4444; }

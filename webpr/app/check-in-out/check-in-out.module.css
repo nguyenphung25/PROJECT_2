@@ -1,0 +1,220 @@
+.capacityBox {
+  min-width: 138px;
+  height: 64px;
+  border-radius: 9px;
+  background: #edf1f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #063f7f;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+.capacityBox > strong {
+  font-size: 26px;
+}
+.capacityBox span {
+  display: block;
+  font-size: 10px;
+  color: #374151;
+  font-weight: 900;
+}
+.capacityBox b {
+  font-size: 22px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  margin-bottom: 38px;
+}
+.panel,
+.tableCard {
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+}
+.panel {
+  padding: 26px;
+}
+.formTitle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.formTitle h3 {
+  margin: 0;
+  font-size: 23px;
+}
+.greenIcon,
+.redIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+}
+.greenIcon {
+  background: #d9fbe6;
+  color: #16a34a;
+}
+.redIcon {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.panel label {
+  display: block;
+  margin: 18px 0 9px;
+  color: #374151;
+  font-weight: 700;
+  font-size: 14px;
+}
+.panel input,
+.panel textarea,
+.exitSearch {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  border-radius: 8px;
+  outline: 0;
+}
+.bigInput {
+  height: 60px;
+  padding: 0 18px;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #111827;
+}
+.panel textarea {
+  height: 76px;
+  resize: none;
+  padding: 16px 18px;
+  font-size: 16px;
+}
+.confirmIn,
+.confirmOut {
+  width: 100%;
+  height: 62px;
+  margin-top: 18px;
+  border: 0;
+  border-radius: 10px;
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.15);
+}
+.confirmIn {
+  background: #2d842f;
+}
+.confirmOut {
+  background: #d2262a;
+}
+.exitSearch {
+  height: 90px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: #6b7280;
+}
+.exitSearch span {
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: 5px;
+  font-weight: 900;
+}
+.noteBox {
+  margin-top: 18px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  min-height: 110px;
+  padding: 28px 18px;
+  color: #4b5563;
+  line-height: 1.55;
+}
+.tableCard {
+  overflow: hidden;
+}
+.tableHead {
+  height: 88px;
+  padding: 0 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #cbd5e1;
+}
+.tableHead h3 {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 0;
+  font-size: 21px;
+}
+.tableHead h3 span {
+  font-size: 12px;
+  background: #d7e6ff;
+  color: #063f7f;
+  border-radius: 999px;
+  padding: 6px 11px;
+}
+.tableActions {
+  display: flex;
+  gap: 8px;
+}
+.tableActions button {
+  border: 0;
+  border-radius: 9px;
+  background: #eef2f7;
+  height: 38px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+.tableWrap table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableWrap th {
+  background: #f3f4f6;
+  color: #4b5563;
+  font-size: 12px;
+  text-align: left;
+  padding: 14px 18px;
+}
+
+.tableWrap td {
+  padding: 16px 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.tableWrap tr:hover {
+  background: #f9fafb;
+}
+.tableFooter {
+  height: 76px;
+  background: #f8fafc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 26px;
+}
+.tableFooter p {
+  color: #374151;
+}
+@media (max-width: 1000px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}

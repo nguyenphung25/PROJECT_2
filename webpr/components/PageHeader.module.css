@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.header h2 {
+  margin: 0;
+  color: #063f7f;
+  font-size: 33px;
+  line-height: 1.1;
+  letter-spacing: -0.8px;
+}
+
+.header p {
+  margin: 8px 0 0;
+  color: #4b5563;
+  font-size: 17px;
+}
