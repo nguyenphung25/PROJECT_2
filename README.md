@@ -1,6 +1,9 @@
 # Smart Parking System
 
 Hệ thống đỗ xe thông minh sử dụng nhận diện biển số xe (ANPR) kết hợp IoT ESP32 để quản lý bãi đỗ xe tự động.
+-Link video demo: 
+https://drive.google.com/file/d/1PzZm6rowP1W4J40Fr4z6Ry8U4pO9Lgm7/view?usp=driv
+esdk
 
 ## Tổng quan
 
