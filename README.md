@@ -1,93 +1,199 @@
-# PROJECT 2
+# Smart Parking System
 
+Hệ thống đỗ xe thông minh sử dụng nhận diện biển số xe (ANPR) kết hợp IoT ESP32 để quản lý bãi đỗ xe tự động.
 
+## Tổng quan
 
-## Getting started
+Hệ thống bao gồm 3 thành phần chính:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+| Thành phần | Công nghệ | Chức năng |
+|---|---|---|
+| **Hardware** | ESP32 + Cảm biến IR + Servo + LCD | Điều khiển barrier cổng vào/ra, hiển thị trạng thái |
+| **Backend** | Python + Flask + YOLO + EasyOCR | Nhận diện biển số, xử lý xe vào/ra, quản lý database |
+| **Frontend** | HTML + CSS + JavaScript | Web dashboard giám sát và điều khiển thủ công |
+| **Database** | Supabase (PostgreSQL + Storage) | Lưu trữ phiên gửi xe, ảnh chụp, lịch sử |
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## Cấu trúc thư mục
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/NguyenPhung025/PROJECT_2.git
-git branch -M main
-git push -uf origin main
+project2/                  # Backend + Frontend
+├── main.py                # Flask server chính (API endpoints)
+├── detect_plate.py        # Nhận diện biển số bằng YOLO
+├── ocr_plate.py           # Đọc ký tự biển số bằng EasyOCR
+├── db.py                  # Quản lý database Supabase
+├── models/
+│   └── best.pt            # Model YOLO đã train
+├── index.html             # Web dashboard
+├── style.css              # Giao diện
+├── main.js                # Logic frontend
+├── requirements.txt       # Python dependencies
+├── .env                   # Biến môi trường (Supabase credentials)
+└── parking.db             # Database SQLite (backup/local)
+
+project2_demo/             # Firmware ESP32
+├── platformio.ini         # Cấu hình PlatformIO
+└── src/
+    └── main.cpp           # Code ESP32 (state machine điều khiển cổng)
 ```
 
-## Integrate with your tools
+## Yêu cầu
 
-* [Set up project integrations](https://gitlab.com/NguyenPhung025/PROJECT_2/-/settings/integrations)
+### Phần cứng
 
-## Collaborate with your team
+- ESP32 DevKit v1
+- Cảm biến hồng ngoại (IR) x 2 (cổng vào + cổng ra)
+- Servo motor (điều khiển barrier)
+- Màn hình LCD 16x2 (I2C, địa chỉ 0x27)
+- LED xanh, đỏ, trắng
+- Webcam USB (laptop/máy tính)
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+### Phần mềm
 
-## Test and Deploy
+**Backend:**
+- Python 3.10+
+- Libraries trong `requirements.txt`:
+  - Flask, Flask-CORS
+  - OpenCV (`opencv-python`)
+  - Ultralytics (YOLO)
+  - EasyOCR
+  - Supabase Python SDK
+  - python-dotenv
 
-Use the built-in continuous integration in GitLab.
+**ESP32:**
+- PlatformIO
+- Thư viện: `LiquidCrystal_I2C`, `ESP32Servo`
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+## Cài đặt
 
-***
+### 1. Backend
 
-# Editing this README
+```bash
+cd project2
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+# Tạo virtual environment
+python -m venv .venv
+source .venv/bin/activate        # Linux/Mac
+# .venv\Scripts\activate         # Windows
 
-## Suggestions for a good README
+# Cài dependencies
+pip install -r requirements.txt
+```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### 2. Cấu hình environment
 
-## Name
-Choose a self-explaining name for your project.
+Tạo file `.env` trong thư mục `project2/`:
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+```env
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_KEY=your-service-role-key
+SUPABASE_BUCKET=parking-images
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### 3. Database (Supabase)
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Chạy file `supabase_setup.sql` trên Supabase SQL Editor để tạo bảng:
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+```sql
+-- parking_sessions: lưu phiên gửi xe
+-- detections: lưu lịch sử nhận diện
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### 4. ESP32
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Sửa thông tin WiFi và IP server trong `project2_demo/src/main.cpp`:
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+```cpp
+const char* ssid = "YOUR_WIFI";
+const char* password = "YOUR_PASSWORD";
+const char* entryServer = "http://YOUR_IP:5000/entry";
+const char* exitServer  = "http://YOUR_IP:5000/exit";
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Flash firmware bằng PlatformIO:
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+```bash
+cd project2_demo
+pio run -t upload
+```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+### 5. Chạy hệ thống
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+```bash
+# Terminal 1 - Flask server
+cd project2
+python main.py
 
-## License
-For open source projects, say how it is licensed.
+# Terminal 2 - Mở browser
+# Truy cập http://localhost:5000
+```
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Sơ đồ kết nối phần cứng
+
+```
+ESP32
+├── GPIO 18 ──── IR Sensor cổng vào (INPUT)
+├── GPIO 19 ──── IR Sensor cổng ra (INPUT)
+├── GPIO 25 ──── Servo Motor barrier (PWM)
+├── GPIO 26 ──── LED Xanh (OUTPUT)
+├── GPIO 27 ──── LED Đỏ (OUTPUT)
+├── GPIO 32 ──── LED Trắng (OUTPUT)
+├── GPIO 21 ──── I2C SDA → LCD
+└── GPIO 22 ──── I2C SCL → LCD
+```
+
+## API Endpoints
+
+| Method | Endpoint | Mô tả |
+|---|---|---|
+| GET | `/entry` | Xử lý xe vào (chụp ảnh, nhận diện, mở barrier) |
+| GET | `/exit` | Xử lý xe ra (chụp ảnh, nhận diện, mở barrier) |
+| GET | `/state/latest` | Lấy trạng thái mới nhất (entry/exit) |
+| POST | `/state/reset` | Reset trạng thái hệ thống |
+| GET | `/esp32/sync` | Đồng bộ số xe cho ESP32 |
+| GET | `/esp32/check-reset` | ESP32 poll lệnh reset từ web |
+| GET | `/esp32/vehicle-passed` | Xác nhận xe đã đi qua IR sensor |
+| GET | `/sessions/latest` | Phiên gửi xe gần nhất (24h) |
+| GET | `/sessions/24h` | Tất cả phiên trong 24h |
+| GET | `/video_feed` | Stream video từ webcam |
+| POST | `/manual/confirm` | Nhập biển số thủ công |
+
+## Quy trình hoạt động
+
+### Xe vào
+
+1. Cảm biến IR cổng vào phát hiện xe → ESP32 gửi request `/entry`
+2. Flask server chụp ảnh từ webcam → YOLO nhận diện vùng biển số
+3. EasyOCR đọc ký tự trên biển số
+4. Kiểm tra định dạng biển số Việt Nam (2 số + 1 chữ + 5 số)
+5. Nếu hợp lệ → lưu vào Supabase → mở barrier servo
+6. Xe đi qua IR cổng ra → ESP32 đóng barrier, cập nhật LCD
+
+### Xe ra
+
+1. Cảm biến IR cổng ra phát hiện xe → ESP32 gửi request `/exit`
+2. Chụp ảnh, nhận diện biển số
+3. Tìm kiếm trong database (status = "inside")
+4. Nếu tìm thấy → cập nhật exit_time → mở barrier
+5. Xe đi qua IR cổng vào → ESP32 đóng barrier
+
+### Xử lý lỗi
+
+- **Biển số không nhận diện được**: Web UI hiển thị panel nhập thủ công
+- **Xe không có trong database**: Từ chối mở barrier, hiển thị lỗi 3s
+- **Bãi đầy**: Hiển thị "Parking FULL!" trên LCD, không mở barrier
+- **Timeout 10s**: Tự động đóng barrier an toàn nếu xe không đi qua
+
+## Chức năng đặc biệt
+
+- **Non-blocking request**: ESP32 sử dụng state machine thay vì `delay()` để hệ thống luôn responsive
+- **Đồng bộ real-time**: ESP32 poll server mỗi 3 giây để cập nhật LCD khi có thay đổi từ Web UI
+- **Reset từ Web UI**: Admin có thể reset hệ thống qua web, ESP32 tự nhận lệnh và về trạng thái IDLE
+- **Nhận diện đa biển số**: YOLO có thể phát hiện nhiều biển số trong một ảnh
+- **Chống nhận diện sai**: Flag `vehicleJustEntered` / `vehicleJustExited` tránh trigger nhầm khi xe đang đi qua cảm biến
+
+## Credits
+
+- Eliyas Science Info - IoT Smart Parking System (nguồn tham khảo ban đầu)
+- Ultralytics YOLO
+- EasyOCR
+- Supabase
